@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import conn from './database/connection.js';
+import routes from './src/routes/index.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -11,9 +12,7 @@ app.use(morgan('tiny'));
 app.use(express.json());
 
 // Routes
-app.get('/', (req, res) => {
-  res.send('Hola mundo');
-});
+app.use('/', routes);
 
 app.listen(PORT, () => {
   conn();
