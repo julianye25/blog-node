@@ -44,4 +44,96 @@ const getAllArticlesService = async () => {
   }
 };
 
-export { createArticleService, getAllArticlesService };
+const getOneArticleService = async (id) => {
+  try {
+    const getOne = await Article.findById(id);
+
+    return {
+      statusCode: 200,
+      content: getOne,
+    };
+  } catch (error) {
+    return {
+      statusCode: 404,
+      content: 'not found',
+    };
+  }
+};
+
+const deleteArticleService = async (id) => {
+  try {
+    const getOne = await Article.findById(id);
+
+    console.log(getOne);
+
+    if (!getOne) {
+      return {
+        statusCode: 400,
+        content: 'not found',
+      };
+    }
+    const deleteArticle = await Article.findByIdAndDelete(id);
+
+    if (!deleteArticle) {
+      return {
+        statusCode: 400,
+        content: 'not found',
+      };
+    }
+
+    return {
+      statusCode: 200,
+      content: 'Success',
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      statusCode: 500,
+      content: 'internal error',
+    };
+  }
+};
+
+const updateArticleService = async (data, id) => {
+  try {
+    const { title, content } = data;
+
+    if (!title || !content) {
+      return {
+        statusCode: 400,
+        content: 'info not found s',
+      };
+    }
+
+    const findOne = await Article.findById(id);
+
+    if (!findOne) {
+      return {
+        statusCode: 500,
+        content: 'not found',
+      };
+    }
+    const updateArticle = await Article.findByIdAndUpdate(id, {
+      title: title,
+      content: content,
+    });
+
+    return {
+      statusCode: 200,
+      content: updateArticle,
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      content: 'internal error',
+    };
+  }
+};
+
+export {
+  createArticleService,
+  getAllArticlesService,
+  getOneArticleService,
+  deleteArticleService,
+  updateArticleService,
+};
