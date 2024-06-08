@@ -7,4 +7,4 @@ const ArticleSchema = Schema({
   img: { type: String, default: 'degault.png' },
 });
 
-export default model('Article', ArticleSchema, 'articles');
+export default model('article', ArticleSchema);
